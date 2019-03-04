@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7
-}
+};
 
 class BurgerBuilder extends Component {
     state = {
@@ -18,7 +20,7 @@ class BurgerBuilder extends Component {
           cheese: 0,
           meat: 0
       },
-      totalPrice: 4,
+      totalPrice: 4
     };
 
     addIngredientHandler = type => {
@@ -51,7 +53,7 @@ class BurgerBuilder extends Component {
         })
     };
 
-    isOrderAvailable() {
+    isOrderAvailable = () => {
         let disabledOrder = true;
         for (let key in this.state.ingredients) {
             if (this.state.ingredients[key] > 0) {
@@ -61,7 +63,7 @@ class BurgerBuilder extends Component {
         return disabledOrder;
     };
 
-    isInfoDisabled() {
+    isInfoDisabled = () => {
         const disabledInfo = {
             ...this.state.ingredients
         };
@@ -75,6 +77,9 @@ class BurgerBuilder extends Component {
     render() {
         return (
             <Aux>
+                <Modal>
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls
                     ingredientAdded={this.addIngredientHandler}
