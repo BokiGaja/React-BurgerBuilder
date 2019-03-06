@@ -91,6 +91,7 @@ class BurgerBuilder extends Component {
         return (
             <Aux>
                 {/* Only if purchasing is true this Modal should be visible*/}
+                {/* We can control will OrderSummary render through Modal component hooks */}
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     <OrderSummary
                         ingredients={this.state.ingredients}
