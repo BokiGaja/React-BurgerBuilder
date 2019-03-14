@@ -114,7 +114,16 @@ class BurgerBuilder extends Component {
         //             this.setState({ loading: false, purchasing: false })
         //         })
         // }, 2000)
-        this.props.history.push('/checkout');
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            // Encode component so it can be used in URL
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        const queryString = queryParams.join('&')
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
     };
 
     isLoading = () => {

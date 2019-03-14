@@ -11,6 +11,16 @@ class Checkout extends Component{
         }
     };
 
+    componentDidMount() {
+        // Fetching data from URL query sent in BurgerBuilder
+        const query = new URLSearchParams(this.props.location.search);
+        const ingredients = {};
+        for (let param of query.entries()) {
+            ingredients[param[0]] = +param[1];
+        }
+        this.setState({ ingredients: ingredients })
+    };
+
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     };
