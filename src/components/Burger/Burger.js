@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './Burger.css';
-import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
+import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+// We added withRouter so Burger.js will have direct access to Routing props
+import { withRouter } from "react-router-dom";
 
 const burger = props => {
     // Turn object into array
@@ -28,4 +30,4 @@ const burger = props => {
     );
 };
 
-export default burger;
+export default withRouter(burger);

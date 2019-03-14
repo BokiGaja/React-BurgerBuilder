@@ -89,31 +89,32 @@ class BurgerBuilder extends Component {
     };
 
     purchaseContinueHandler = () => {
-        this.setState({ loading: true });
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Boza',
-                address: {
-                    street: 'V.D.134',
-                    zipCode: '1234',
-                    country: 'Serbia'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        };
-        // I set Timeout here just to see Spinner
-        setTimeout(() => {
-            axios.post('/orders.json', order)
-                .then(response => {
-                    this.setState({ loading: false, purchasing: false })
-                })
-                .catch(error => {
-                    this.setState({ loading: false, purchasing: false })
-                })
-        }, 2000)
+        // this.setState({ loading: true });
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Boza',
+        //         address: {
+        //             street: 'V.D.134',
+        //             zipCode: '1234',
+        //             country: 'Serbia'
+        //         },
+        //         email: 'test@test.com'
+        //     },
+        //     deliveryMethod: 'fastest'
+        // };
+        // // I set Timeout here just to see Spinner
+        // setTimeout(() => {
+        //     axios.post('/orders.json', order)
+        //         .then(response => {
+        //             this.setState({ loading: false, purchasing: false })
+        //         })
+        //         .catch(error => {
+        //             this.setState({ loading: false, purchasing: false })
+        //         })
+        // }, 2000)
+        this.props.history.push('/checkout');
     };
 
     isLoading = () => {
