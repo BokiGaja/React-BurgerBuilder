@@ -1,16 +1,63 @@
 import React, { Component } from 'react'
 import Button from '../../../components/UI/Button/Button';
-import Spinner from '../../../components/UI/Spinner/Spinner'
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input'
 import classes from './ContactData.css';
 import axios from '../../../axios-orders'
 
 class ContactData extends Component {
     state = {
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            postalCode: ''
+        orderForm: {
+                name: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Your Name'
+                    },
+                    value: 'Boza'
+                },
+                street: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Street'
+                    },
+                    value: ''
+                },
+                zipCode: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'ZIP'
+                    },
+                    value: ''
+                },
+                country: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Country'
+                    },
+                    value: ''
+                },
+                email: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'email',
+                        placeholder: 'Email'
+                    },
+                    value: ''
+                },
+                deliveryMethod: {
+                    elementType: 'select',
+                    elementConfig: {
+                        options: [
+                            {value: 'fastest', displayValue: 'Fastest'},
+                            {value: 'cheapest', displayValue: 'Cheapest'},
+                        ]
+                    },
+                    value: ''
+                },
         },
         loading: false
     };
@@ -21,16 +68,7 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            customer: {
-                name: 'Boza',
-                address: {
-                    street: 'V.D.134',
-                    zipCode: '1234',
-                    country: 'Serbia'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
+
         };
         // I set Timeout here just to see Spinner
         setTimeout(() => {
@@ -48,10 +86,10 @@ class ContactData extends Component {
     currentForm() {
         let form = (
             <form action="">
-                <input className={classes.Input} type="text" name="name" placeholder="Your name"/>
-                <input className={classes.Input} type="email" name="email" placeholder="Your email"/>
-                <input className={classes.Input} type="text" name="street" placeholder="Your street"/>
-                <input className={classes.Input} type="text" name="postal" placeholder="Postal code"/>
+                <Input elementType="..." elementConfig="..." value="..."/>
+                <Input inputtype="input" type="email" name="email" placeholder="Your email"/>
+                <Input inputtype="input" type="text" name="street" placeholder="Your street"/>
+                <Input inputtype="input" type="text" name="postal" placeholder="Postal code"/>
                 <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
             </form>
         );
