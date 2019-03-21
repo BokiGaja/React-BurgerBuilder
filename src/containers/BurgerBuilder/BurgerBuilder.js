@@ -11,9 +11,12 @@ import * as burgerBuilderActions from '../../store/actions/index'
 
 class BurgerBuilder extends Component {
     state = {
-        purchasing: false,
-        loading: false
+        purchasing: false
     };
+
+    componentDidMount() {
+        this.props.onInitIngredients();
+    }
 
     isOrderAvailable = () => {
         let disabledOrder = true;
@@ -59,9 +62,6 @@ class BurgerBuilder extends Component {
             />;
         }
 
-        if (this.state.loading) {
-            orderSummary = <Spinner/>
-        }
         return orderSummary;
     };
 
@@ -69,7 +69,7 @@ class BurgerBuilder extends Component {
         let burger = <Spinner/>;
         if (this.props.ings) {
             burger =
-                <Aux>
+                <Aux>Spinner
                     <Burger ingredients={this.props.ings}/>
                     <BuildControls
                         ingredientAdded={this.props.onIngredientAdded}
@@ -108,7 +108,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName))
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngridients())
     }
 };
 
