@@ -6,7 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { connect } from "react-redux";
-import * as actionTypes from '../../store/actions'
+import * as actionTypes from '../../store/actions/actionTypes'
 
 class BurgerBuilder extends Component {
     state = {
