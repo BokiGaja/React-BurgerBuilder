@@ -22,6 +22,20 @@ export const authFail = error => {
         error: error
     }
 };
+
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    }
+};
+
+export const checkAuthTimeout = expirationTime => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime*1000)
+    }
+};
 // Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
 // Get your API key in Firebase/Authenticate/Web setup
 export const auth = (email, password, isSignup) => {
@@ -42,6 +56,7 @@ export const auth = (email, password, isSignup) => {
             .then(res => {
                 console.log(res);
                 dispatch(authSucess(res.data.idToken, res.data.localId));
+                dispatch(checkAuthTimeout(res.data.expiresIn));
             })
             .catch(err => {
                 console.log(err);
