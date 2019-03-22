@@ -103,7 +103,7 @@ class Auth extends Component {
         event.preventDefault();
         this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value)
     };
-    
+
     render() {
         return (
             <div className={classes.Auth}>

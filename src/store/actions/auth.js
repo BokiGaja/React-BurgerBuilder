@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axios from 'axios';
 
 export const authStart = () => {
     return {
@@ -20,9 +21,24 @@ export const authFail = error => {
         error: error
     }
 };
-
+// Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+// Get your API key in Firebase/Authenticate/Web setup
 export const auth = (email, password) => {
     return dispatch => {
-        dispatch(authStart())
+        dispatch(authStart());
+        const authData = {
+            email: email,
+            password: password,
+            returnSecureToken: true
+        };
+        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc', authData)
+            .then(res => {
+                console.log(res);
+                dispatch(authSucess(res));
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(authFail(err))
+            })
     }
 };
