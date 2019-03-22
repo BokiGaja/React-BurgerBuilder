@@ -23,7 +23,7 @@ export const authFail = error => {
 };
 // Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
 // Get your API key in Firebase/Authenticate/Web setup
-export const auth = (email, password) => {
+export const auth = (email, password, isSignup) => {
     return dispatch => {
         dispatch(authStart());
         const authData = {
@@ -31,7 +31,13 @@ export const auth = (email, password) => {
             password: password,
             returnSecureToken: true
         };
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc', authData)
+        // Url for Sign up
+        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc';
+        if (!isSignup) {
+            // Url for Sign In
+            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc';
+        }
+        axios.post(url, authData)
             .then(res => {
                 console.log(res);
                 dispatch(authSucess(res));
