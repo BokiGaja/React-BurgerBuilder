@@ -69,7 +69,7 @@ class BurgerBuilder extends Component {
         let burger = <Spinner/>;
         if (this.props.ings) {
             burger =
-                <Aux>Spinner
+                <Aux>
                     <Burger ingredients={this.props.ings}/>
                     <BuildControls
                         ingredientAdded={this.props.onIngredientAdded}
