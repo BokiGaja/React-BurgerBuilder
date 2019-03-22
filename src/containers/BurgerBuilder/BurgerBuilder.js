@@ -55,11 +55,11 @@ class BurgerBuilder extends Component {
         let orderSummary = null;
         if (this.props.ings)  {
              orderSummary = <OrderSummary
-                ingredients={this.props.ings}
-                purchaseCanceled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler}
-                price={this.props.price}
-            />;
+                                ingredients={this.props.ings}
+                                purchaseCanceled={this.purchaseCancelHandler}
+                                purchaseContinued={this.purchaseContinueHandler}
+                                price={this.props.price}
+                            />;
         }
 
         return orderSummary;
