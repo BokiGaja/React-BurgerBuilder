@@ -61,7 +61,7 @@ export const auth = (email, password, isSignup) => {
                 // We are setting time here to save in memory date when will token expire
                 const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
                 localStorage.setItem('token', res.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('expirationDatfe', expirationDate);
                 localStorage.setItem('userId', res.data.userId);
                 dispatch(authSucess(res.data.idToken, res.data.localId));
                 dispatch(checkAuthTimeout(res.data.expiresIn));
