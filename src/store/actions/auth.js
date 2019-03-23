@@ -57,7 +57,6 @@ export const auth = (email, password, isSignup) => {
         }
         axios.post(url, authData)
             .then(res => {
-                console.log(res);
                 // We are setting time here to save in memory date when will token expire
                 const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
                 localStorage.setItem('token', res.data.idToken);
