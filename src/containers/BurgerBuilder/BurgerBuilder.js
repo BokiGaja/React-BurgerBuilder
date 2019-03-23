@@ -8,8 +8,8 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import { connect } from "react-redux";
 import * as actions from '../../store/actions/index'
 
-
-class BurgerBuilder extends Component {
+// Export class so you can import it in test
+export class BurgerBuilder extends Component {
     state = {
         purchasing: false
     };
