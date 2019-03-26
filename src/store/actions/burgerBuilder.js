@@ -23,13 +23,7 @@ export const setIngredients = ingredients => {
 };
 
 export const initIngridients = () => {
-    return dispatch => {
-        axios.get('https://burger-builder-93.firebaseio.com/ingredients.json')
-            .then( res => {
-                dispatch(setIngredients(res.data))
-            })
-            .catch( error => {
-                console.log(error);
-        })
+    return  {
+        type: actionTypes.INIT_INGREDIENTS
     }
 };
