@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
 
 export const authStart = () => {
     return {
@@ -41,8 +40,7 @@ export const checkAuthTimeout = expirationTime => {
         expirationTime: expirationTime
     }
 };
-// Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
-// Get your API key in Firebase/Authenticate/Web setup
+
 export const auth = (email, password, isSignup) => {
     return {
         type: actionTypes.AUTH_USER,
@@ -60,19 +58,7 @@ export const setAuthRedirectPath = path => {
 };
 
 export const authCheckState = () => {
-    return dispatch => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            dispatch(logout());
-        } else {
-            const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            if (expirationDate <= new Date()) {
-                dispatch(logout())
-            } else {
-                const userId = localStorage.getItem('userId');
-                dispatch(authSucess(token, userId));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000))
-            }
-        }
+    return {
+        type: actionTypes.AUTH_CHECK_STATE
     }
 };

@@ -3,7 +3,9 @@ import { delay } from 'redux-saga/effects';
 import axios from "axios";
 
 import * as actions from '../actions/index';
-import {authFail, authStart, authSucess, checkAuthTimeout} from "../actions/auth";
+import {logout} from "../actions/index";
+import {authSucess} from "../actions/index";
+import {checkAuthTimeout} from "../actions/index";
 
 // * turns function into generator - functions that can be executed incrementally
 export function* logoutSaga() {
@@ -21,6 +23,8 @@ export function* checkAuthTimeoutSaga(action) {
     yield put(actions.logout());
 }
 
+// Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+// Get your API key in Firebase/Authenticate/Web setup
 export function* authUserSaga(action) {
     yield put(actions.authStart());
     const authData = {
@@ -46,5 +50,21 @@ export function* authUserSaga(action) {
     }
     catch(error) {
         yield put(actions.authFail(error.response.data.error))
+    }
+}
+
+export function* authCheckStateSaga() {
+    const token = yield localStorage.getItem('token');
+    if (!token) {
+        yield put(actions.logout());
+    } else {
+        const expirationDate = yield new Date(localStorage.getItem('expirationDate'));
+        if (expirationDate <= new Date()) {
+            yield put(actions.logout())
+        } else {
+            const userId = yield localStorage.getItem('userId');
+            yield put(actions.authSucess(token, userId));
+            yield put(actions.checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000))
+        }
     }
 }
