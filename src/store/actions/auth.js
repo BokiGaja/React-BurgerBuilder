@@ -44,33 +44,11 @@ export const checkAuthTimeout = expirationTime => {
 // Get info for sign up/in on https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
 // Get your API key in Firebase/Authenticate/Web setup
 export const auth = (email, password, isSignup) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        };
-        // Url for Sign up
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc';
-        if (!isSignup) {
-            // Url for Sign In
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyB-kZrVI5k3iWqRwWqHdTlM88OlxvbPloc';
-        }
-        axios.post(url, authData)
-            .then(res => {
-                // We are setting time here to save in memory date when will token expire
-                const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
-                localStorage.setItem('token', res.data.idToken);
-                localStorage.setItem('expirationDatfe', expirationDate);
-                localStorage.setItem('userId', res.data.userId);
-                dispatch(authSucess(res.data.idToken, res.data.localId));
-                dispatch(checkAuthTimeout(res.data.expiresIn));
-            })
-            .catch(err => {
-                console.log(err);
-                dispatch(authFail(err.response.data.error))
-            })
+    return {
+        type: actionTypes.AUTH_USER,
+        email: email,
+        password: password,
+        isSignup: isSignup
     }
 };
 
