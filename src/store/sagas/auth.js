@@ -1,4 +1,5 @@
-import { put } from 'redux-saga/effects';
+// call allows you to call some function on some object
+import { put, call, all } from 'redux-saga/effects';
 import { delay } from 'redux-saga/effects';
 import axios from "axios";
 
@@ -6,8 +7,10 @@ import * as actions from '../actions/index';
 
 // * turns function into generator - functions that can be executed incrementally
 export function* logoutSaga() {
+    // Advantage of call is that it makes your generators testable
+    // First argument is object, second is function and third parameters
+    yield call([localStorage, 'removeItem'], 'token');
     // yield will wait for each step finish
-    yield localStorage.removeItem('token');
     yield localStorage.removeItem('expirationDate');
     yield localStorage.removeItem('userId');
     // put will dispatch new action
@@ -39,11 +42,14 @@ export function* authUserSaga(action) {
         const response =  yield axios.post(url, authData);
         // We are setting time here to save in memory date when will token expire
         const expirationDate = yield new Date(new Date().getTime() + response.data.expiresIn * 1000);
-        yield localStorage.setItem('token', response.data.idToken);
-        yield localStorage.setItem('expirationDate', expirationDate);
-        yield localStorage.setItem('userId', response.data.userId);
-        yield put(actions.authSucess(response.data.idToken, response.data.localId));
-        yield put(actions.checkAuthTimeout(response.data.expiresIn));
+        yield all([
+                 localStorage.setItem('token', response.data.idToken),
+                 localStorage.setItem('expirationDate', expirationDate),
+                 localStorage.setItem('userId', response.data.userId),
+                 put(actions.authSucess(response.data.idToken, response.data.localId)),
+                 put(actions.checkAuthTimeout(response.data.expiresIn))
+        ])
+
     }
     catch(error) {
         yield put(actions.authFail(error.response.data.error))

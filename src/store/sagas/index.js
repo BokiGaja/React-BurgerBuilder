@@ -1,6 +1,6 @@
 // takeEvery will allow us to listen to certain actions and do something when
 // they occur
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth';
 import { initIngredientsSaga } from './burgerBuilder'
@@ -9,10 +9,13 @@ import * as actionType from '../actions/actionTypes'
 
 // Here i set listener that will execute logout saga whenever auth initiate runs
 export function* watchAuth() {
-    yield takeEvery(actionType.AUTH_INITIATE_LOGOUT, logoutSaga);
-    yield takeEvery(actionType.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga);
-    yield takeEvery(actionType.AUTH_USER, authUserSaga);
-    yield takeEvery(actionType.AUTH_CHECK_STATE, authCheckStateSaga)
+    // Use all when you have multiple yields
+    yield all([
+            takeEvery(actionType.AUTH_INITIATE_LOGOUT, logoutSaga),
+            takeEvery(actionType.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
+            takeEvery(actionType.AUTH_USER, authUserSaga),
+            takeEvery(actionType.AUTH_CHECK_STATE, authCheckStateSaga)
+    ]);
 }
 
 export function* watchBurgerBuilder() {
@@ -20,6 +23,7 @@ export function* watchBurgerBuilder() {
 }
 
 export function* watchOrder() {
-    yield takeEvery(actionType.PURCHASE_BURGER, purchaseBurgerSaga);
+    // In case you have multiple request (multi click on button in short time) you might want to use latest request
+    yield takeLatest(actionType.PURCHASE_BURGER, purchaseBurgerSaga);
     yield takeEvery(actionType.FETCH_ORDERS, fetchOrderSaga)
 }
