@@ -3,9 +3,6 @@ import { delay } from 'redux-saga/effects';
 import axios from "axios";
 
 import * as actions from '../actions/index';
-import {logout} from "../actions/index";
-import {authSucess} from "../actions/index";
-import {checkAuthTimeout} from "../actions/index";
 
 // * turns function into generator - functions that can be executed incrementally
 export function* logoutSaga() {

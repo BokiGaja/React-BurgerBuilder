@@ -1,9 +1,10 @@
 // takeEvery will allow us to listen to certain actions and do something when
 // they occur
 import { takeEvery } from 'redux-saga/effects';
-import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth';
 
+import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth';
 import { initIngredientsSaga } from './burgerBuilder'
+import { purchaseBurgerSaga, fetchOrderSaga } from './order'
 import * as actionType from '../actions/actionTypes'
 
 // Here i set listener that will execute logout saga whenever auth initiate runs
@@ -16,4 +17,9 @@ export function* watchAuth() {
 
 export function* watchBurgerBuilder() {
     yield takeEvery(actionType.INIT_INGREDIENTS, initIngredientsSaga)
+}
+
+export function* watchOrder() {
+    yield takeEvery(actionType.PURCHASE_BURGER, purchaseBurgerSaga);
+    yield takeEvery(actionType.FETCH_ORDERS, fetchOrderSaga)
 }
